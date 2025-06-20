@@ -115,7 +115,7 @@ class EntropyEdgeMethod(EdgeMethod):
 
     input = rgb2gray(img)
     sections = subdivide(input, self.k)
-    if self.mag <= 10:
+    if self.mag <= 20:
        disk_radius = 4
        percentile_threshold = 85
     else:
@@ -150,30 +150,30 @@ class Material():
 # Make each material
 
 wte2_labels = { # cielab colorspace
-                  (56, 40, -10): 'monolayer',
-                  (46, 50, -20): 'bilayer',
-                  (39, 60, -30): 'trilayer',
-                  (31, 54, -32): 'fewlayer',
-                  (70, 20, -30): 'manylayer',
-                  (80, 5, 10): 'bulk',
-                  (0, 0, 0): 'dirt',
-                  (30, 20, -10): 'dirt',
+                  (56, 40, -10): 'Monolayer',
+                  (46, 50, -20): 'Bilayer',
+                  (39, 60, -30): 'Trilayer',
+                  (31, 54, -32): 'Fewlayer',
+                  (70, 20, -30): 'Manylayer',
+                  (80, 5, 10): 'Bulk',
+                  (0,0,0): 'Background',
+                  (30, 20, -10): 'Dirt',
               }
 
 wte2 = Material('WTe2', [58.50683594, 28.57762527, -2.79295444], layer_labels=wte2_labels)
 
 graphene_labels = { # cielab colorspace
-                  (49.5, 14, 4): 'monolayer',
-                  (47, 17, 3): 'bilayer',
-                  (37, 31, -2): 'trilayer',
-                  (30, 30, -27): 'fewlayer',
-                  (50, 0, -15): 'manylayer',
-                  (80, 5, 10): 'bulk',
-                  (53, -8, -12): 'bluish_layers',
-                  (50, 1, -10): 'bluish_layers',
-                  (48.1, 4.7, 10.4): 'dirt',
-                #   (30, 20, -10): 'dirt',
-                  (0,0,0): 'bg'
+                  (49.5, 14, 4): 'Monolayer',
+                  (47, 17, 3): 'Bilayer',
+                  (37, 31, -2): 'Trilayer',
+                  (30, 30, -27): 'Fewlayer',
+                  (50, 0, -15): 'Manylayer',
+                  (80, 5, 10): 'Bulk',
+                  (53, -8, -12): 'Bluish_layers',
+                  (50, 1, -10): 'Bluish_layers',
+                  (48.1, 4.7, 10.4): 'Dirt',
+                #   (30, 20, -10): 'Dirt',
+                  (0,0,0): 'Background'
               }
 
 graphene = Material(
@@ -192,10 +192,10 @@ hBN_labels = { # cielab colorspace
                   (62.2, -11.6, -41.3): '20-30',
                   (72.8, -35, -15.1): '30+',
                   (71.8, -25.5, 0): '35+',
-                  # (69.4, -3.5, 50.8): 'bulk',
-                  # (53, -8, -12): 'bluish_layers',
-                  # (50, 1, -10): 'more_bluish_layers',
-                  (30, 20, -10): 'dirt',
+                  # (69.4, -3.5, 50.8): 'Bulk',
+                  # (53, -8, -12): 'Bluish_layers',
+                  # (50, 1, -10): 'More_bluish_layers',
+                  (30, 20, -10): 'Dirt',
               }
 
 hBN = Material(

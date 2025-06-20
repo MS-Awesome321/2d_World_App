@@ -16,6 +16,9 @@ class Segmenter():
         self.max_area = max_area
         
         self.lab = cv2.cvtColor(img, cv2.COLOR_RGB2LAB)
+        self.lab[:,:,0] = self.lab[:,:,0] * 100.0/255.0
+        self.lab[:,:,0] -= 128
+        self.lab[:,:,0] -= 128
 
     def make_masks(self):
         self.edges = self.edge_method(self.img)
@@ -54,7 +57,7 @@ class Segmenter():
         
         self.layer_labels = new_layer_labels
         # Add bg lab
-        self.layer_labels[tuple(self.avg_bg_lab)] = 'bg'
+        self.layer_labels[tuple(self.avg_bg_lab)] = 'Background'
 
     def label_masks(self):
         self.adjust_layer_labels()
@@ -72,9 +75,9 @@ class Segmenter():
             area = self.mask_areas[i]
             if i==0:
                 # Don't label edge mask
-                self.mask_labels.append('bg')
+                self.mask_labels.append('Background')
             elif area < self.min_area:
-                self.mask_labels.append('dirt')
+                self.mask_labels.append('Dirt')
             else:
                 label = layer_types[min_indices[idx]]
                 self.mask_labels.append(label)
@@ -115,4 +118,17 @@ class Segmenter():
         # Map each pixel in self.masks to its number using the lookup table
         result = number_table[self.masks]
         self.numbered_masks = result
+        return result
+    
+    def labelify(self, shrink=1):
+        """
+        Returns a 2D array where each pixel contains the string label of its segment.
+        """
+        # Prepare a lookup table for labels for all mask ids
+        label_table = np.array(self.mask_labels, dtype=object)
+        # Map each pixel in self.masks to its label using the lookup table
+        new_size = (int(shrink*self.size[1]), int(shrink*self.size[0]))
+        resized_masks = cv2.resize(self.masks, new_size, interpolation=cv2.INTER_NEAREST)
+        result = label_table[resized_masks]
+        self.labeled_masks = result
         return result
